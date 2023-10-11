@@ -181,8 +181,8 @@ def reset_request():
         return redirect(url_for("login"))
     return render_template("reset_request.html", title="Reset Password", form=form)
 
-@app.route("/reset_password/<token>", methods=["GET", "POST"])
-def reset_request(token):
+@app.route("/reset_password_confirm/<token>", methods=["GET", "POST"])
+def reset_request_confirm(token):
     if current_user.is_authenticated:
         return redirect(url_for("home"))
     # Verify the token

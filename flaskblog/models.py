@@ -1,7 +1,7 @@
 from flaskblog import db, login_manager, app
 from datetime import datetime
 from flask_login import UserMixin
-from itsdangerous import URLSafeTimedSerializer as Serializer
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
 
 # Get a user by its id
