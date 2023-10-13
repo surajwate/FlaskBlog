@@ -1,4 +1,5 @@
-from flaskblog import db, login_manager, app
+from flaskblog import db, login_manager
+from flask import current_app
 from datetime import datetime
 from flask_login import UserMixin
 import jwt
@@ -19,7 +20,7 @@ class User(db.Model, UserMixin):
     # Generate a token for password reset
     def get_reset_token(self, expires_sec=1800):
         payload = {"user_id": self.id, "exp": datetime.utcnow() + timedelta(seconds=expires_sec)}
-        token = jwt.encode(payload, app.config["SECRET_KEY"], algorithm="HS256")
+        token = jwt.encode(payload, current_app.config["SECRET_KEY"], algorithm="HS256")
         if isinstance(token, bytes):
             return token.decode("utf-8")
         return token
@@ -29,7 +30,7 @@ class User(db.Model, UserMixin):
     def verify_reset_token(token):
         try:
             # Load the token
-            payload = jwt.decode(token, app.config["SECRET_KEY"], algorithms=["HS256"])
+            payload = jwt.decode(token, current_app.config["SECRET_KEY"], algorithms=["HS256"])
         except:
             return None
         user_id = payload.get("user_id")
